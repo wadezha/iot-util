@@ -1,0 +1,39 @@
+{
+  "name": "iot-util",
+  "version": "0.0.1",
+  "description": "iot util for Nodejs",
+  "main": "index.js",
+  "author": "keman",
+  "contributors": [
+    {
+      "name": "Wade Cha",
+      "email": "chajianhua@gmail.com"
+    }
+  ],
+  "dependencies": {
+    "@log4js-node/redis": "^1.0.0",
+    "log4js": "^3.0.6",
+    "node-async-mysql": "^1.1.0",
+    "redis": "^2.7.1",
+    "superagent": "^3.5.1",
+    "nan": "^2.10.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=8.9.3"
+  },
+  "keywords": [
+    "iot",
+    "iot-util"
+  ],
+  "scripts": {
+    "eslint": "eslint .",
+    "test": "node test/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wadecha/iot-util.git"
+  },
+  "license": "ISC",
+  "homepage": "https://github.com/wadecha/iot-util#readme"
+}
