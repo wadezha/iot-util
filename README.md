@@ -55,6 +55,7 @@ const sleep = ms => {
 
 ```
 const util = require('../index');
+const idGenerator = new util.IdGenerator(1);
 
 function normalFuncTest() {
 
@@ -67,7 +68,7 @@ function normalFuncTest() {
   buf.writeUInt24BE(65526, 0);
   console.log('Buffer ', buf.readUInt24BE(0));
 
-  console.log('idGenerator ', util.idGenerator.nextId());
+  console.log('idGenerator ', idGenerator.nextId());
 
   const logger = new util.Logger(config.loggerConfig, 'iot-util');
   logger.info('username', 'MYSQL', 'getLoggerList', '获取日志分页列表错误: ', '报错了');
@@ -76,10 +77,10 @@ function normalFuncTest() {
 ```
 
 ```
-const mysqlPool = new util.MysqlPool(config.mysqlConfig);
+const mysqlClient = new util.MysqlClient(config.mysqlConfig);
 const redisClient = new util.RedisClient(config.redisConfig);
 const messageCenter = new util.MessageCenter(config.redisConfig);
-const httpClient = new util.HttpClient();
+const httpClient = new util.HttpClient(config.httpConfig);
 
 async function getPropertymapSqlList(queryParams) {
 
@@ -87,8 +88,9 @@ async function getPropertymapSqlList(queryParams) {
     from help_topic
     limit 3`;
 
-  return await mysqlPool.all(sql, queryParams);
+  return await mysqlClient.all(sql, queryParams);
 }
+
 
 async function asyncFuncTest() {
   try{
@@ -103,9 +105,15 @@ async function asyncFuncTest() {
     console.log('mysql.all ', result2);
     console.log('mysql query finish');
 
-    await redisClient.set('redis_test', 'immmmxxxx', 10);
-    console.log('redisClient.get ', await redisClient.get('redis_test'));
 
+    await redisClient.set('redis_test', 'immmmxxxx');
+    await redisClient.setex('redis_test_ex', 10, 'immmmxxxx');
+    console.log('redisClient.get.redis_test ', await redisClient.get('redis_test'));
+    console.log('redisClient.get.redis_test_ex ', await redisClient.get('redis_test_ex'));
+    await sleep(20000);
+    console.log('redisClient.get.redis_test ', await redisClient.get('redis_test'));
+    console.log('redisClient.get.redis_test_ex ', await redisClient.get('redis_test_ex'));
+    
     await redisClient.hset('redis_hash', 'kit', 10);
     await redisClient.hset('redis_hash', 'kit1', '3456f');
     console.log('redisClient.redis_hget ', await redisClient.hget('redis_hash', 'kit'));
