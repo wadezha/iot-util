@@ -80,7 +80,7 @@ async function getPropertymapSqlList(queryParams) {
 
   const sql = `select help_topic_id,name,help_category_id
     from help_topic
-    where name=:name
+    where help_category_id=:help_category_id
     limit 3`;
 
   return await mysqlClient.all(sql, queryParams);
@@ -91,11 +91,11 @@ async function asyncFuncTest() {
     await sleep(2000);
 
     console.log('mysql query start');
-    const result1 = await getPropertymapSqlList({ name: 'JOIN' });
+    const result1 = await getPropertymapSqlList({ help_category_id: 8 });
     console.log('mysql.all ', result1);
     // console.log('to query in 30 seconds')
     // await sleep(600000)
-    const result2 = await getPropertymapSqlList({ name: 'JOIN' });
+    const result2 = await getPropertymapSqlList({ help_category_id: 8 });
     console.log('mysql.all ', result2);
     console.log('mysql query finish');
 
