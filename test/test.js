@@ -115,6 +115,9 @@ async function asyncFuncTest() {
     await redisClient.hdel('redis_hash', 'kit');
     console.log('redisClient.redis_hget ', await redisClient.hget('redis_hash', 'kit'));
 
+    await redisClient.hmset('redis_mhash', { kit: 10, kit1: 12 });
+    console.log('redisClient.redis_hmget ', await redisClient.hmget('redis_mhash', ['kit']));
+    console.log('redisClient.redis_hmget ', await redisClient.hmget('redis_mhash', ['kit', 'kit1']));
 
     await messageCenter.push('q_test', '如何啊，你收一下');
     console.log('messageCenter.queue ', await messageCenter.pop('q_test'));
