@@ -1,6 +1,6 @@
 {
   "name": "iot-util",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "iot util for Nodejs",
   "main": "index.js",
   "author": "keman",
@@ -13,12 +13,12 @@
   "dependencies": {
     "@log4js-node/redis": "^1.0.0",
     "log4js": "^3.0.6",
+    "nan": "^2.13.2",
     "node-async-mysql": "^1.2.0",
     "redis": "^2.7.1",
     "superagent": "^3.5.1"
   },
   "devDependencies": {
-    "nan": "^2.13.2",
     "node-gyp": "^3.8.0",
     "node-pre-gyp": "^0.12.0"
   },
