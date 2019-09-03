@@ -7,6 +7,8 @@ const EventBus = require('./lib/event_bus');
 const MysqlClient = require('./lib/mysql_client');
 const HttpClient = require('./lib/http_client');
 const RedisClient = require('./lib/redis_client');
+const RedisSubClient = require('./lib/redis_sub_client');
+const RedisPubClient = require('./lib/redis_pub_client');
 const PyramidBlock = require('./lib/pyramid_block');
 const MessageCenter = require('./lib/message_center');
 
@@ -17,5 +19,7 @@ exports.EventBus = EventBus;
 exports.MysqlClient = MysqlClient;
 exports.HttpClient = HttpClient;
 exports.RedisClient = RedisClient;
+exports.RedisSubClient = RedisSubClient;
+exports.RedisPubClient = RedisPubClient;
 exports.PyramidBlock = PyramidBlock;
 exports.MessageCenter = MessageCenter;

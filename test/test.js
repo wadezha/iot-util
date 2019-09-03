@@ -37,6 +37,17 @@ const config = {
     port: 6379,
     pass: '',
   },
+  amqpConfig: {
+    host: '127.0.0.1',
+    port: 5672,
+    login: 'guest',
+    password: 'guest',
+    connectionTimeout: 10000,
+    authMechanism: 'AMQPLAIN',
+    vhost: '/',
+    noDelay: true,
+    ssl: { enabled: false },
+  },
   httpConfig: {
     host: 'apis.map.qq.com',
     port: '',
@@ -73,6 +84,8 @@ const sleep = ms => {
 
 const mysqlClient = new util.MysqlClient(config.mysqlConfig);
 const redisClient = new util.RedisClient(config.redisConfig);
+const redisSubClient = new util.RedisSubClient(config.redisConfig);
+const redisPubClient = new util.RedisPubClient(config.redisConfig);
 const messageCenter = new util.MessageCenter(config.redisConfig);
 const httpClient = new util.HttpClient(config.httpConfig);
 
@@ -103,7 +116,7 @@ async function asyncFuncTest() {
     await redisClient.setex('redis_test_ex', 10, 'immmmxxxx');
     console.log('redisClient.get.redis_test ', await redisClient.get('redis_test'));
     console.log('redisClient.get.redis_test_ex ', await redisClient.get('redis_test_ex'));
-    await sleep(20000);
+    await sleep(2000);
     console.log('redisClient.get.redis_test ', await redisClient.get('redis_test'));
     console.log('redisClient.get.redis_test_ex ', await redisClient.get('redis_test_ex'));
 
@@ -118,6 +131,17 @@ async function asyncFuncTest() {
     await redisClient.hmset('redis_mhash', { kit: 10, kit1: 12 });
     console.log('redisClient.redis_hmget ', await redisClient.hmget('redis_mhash', ['kit']));
     console.log('redisClient.redis_hmget ', await redisClient.hmget('redis_mhash', ['kit', 'kit1']));
+
+    redisSubClient.on('message', (channel, message) => {
+      console.log('redisClient.channel ', channel, ' , redisClient.message ', message);
+    });
+    redisSubClient.subscribe('redis_topic');
+
+    await redisPubClient.publish('redis_topic', 'kit_pub_message');
+    await redisPubClient.end();
+    redisPubClient.on('ready', async () => {
+      await redisPubClient.publish('redis_topic', 'kit_pub_message1');
+    });
 
     await messageCenter.push('q_test', '如何啊，你收一下');
     console.log('messageCenter.queue ', await messageCenter.pop('q_test'));
