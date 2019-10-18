@@ -1,6 +1,6 @@
 {
   "name": "iot-util",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "iot util for Nodejs",
   "main": "index.js",
   "author": "keman",
